@@ -1,7 +1,7 @@
 import type { NextApiHandler } from "next";
 import { Program } from "../../interfaces";
 
-const countHandler: NextApiHandler = async (request, response) => {
+const getPrograms: NextApiHandler = async (request, response) => {
   try {
     const sessionResponse = await fetch(
       `https://api.entrylevel.net/test/sessions`,
@@ -12,14 +12,14 @@ const countHandler: NextApiHandler = async (request, response) => {
     const sessions = await sessionResponse.json();
 
     const sortedSessions = sessions.sort(
-      (program1, program2) =>
+      (program1: any, program2: any) =>
         new Date(program2).getTime() - new Date(program1).getTime()
     );
 
     const programs: Program[] = [];
     let programCount = 0;
-		const shortTitleFilter = request.query.short_title ? request.query.short_title.split(',') : [];
-		const statusFilter = request.query.status ? request.query.status.split(',') : [];
+		const shortTitleFilter = request.query.short_title ? (request.query.short_title as string).split(',') : [];
+		const statusFilter = request.query.status ? (request.query.status as string).split(',') : [];
     for (let session of sortedSessions) {
       if (programCount >= 50) {
         break;
@@ -51,8 +51,8 @@ const countHandler: NextApiHandler = async (request, response) => {
     response.json(programs);
   } catch (error) {
 		console.log(error);
-		response.status(500).json();
+		response.status(500).json({});
 	}
 };
 
-export default countHandler;
+export default getPrograms;

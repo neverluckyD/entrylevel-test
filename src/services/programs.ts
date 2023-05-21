@@ -3,7 +3,7 @@ import { Program } from "../interfaces";
 export async function getPrograms(
   shortTitle: string[] = [],
   status: string[] = []
-): Program[] {
+): Promise<Program[]> {
   const searchParams = new URLSearchParams({
     short_title: shortTitle.filter((title) => !!title).join(","),
     status: status.filter((stt) => !!stt).join(","),
@@ -13,7 +13,7 @@ export async function getPrograms(
 		const res = await fetch(`${baseUrl}/api/programs?${searchParams.toString()}`);
 		const programList = await res.json();
 		return programList;
-	} catch (error) {
+	} catch (error: any) {
 		throw new Error(error);
 	}
   

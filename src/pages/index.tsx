@@ -57,7 +57,7 @@ const IndexPage: NextPage = () => {
           </div>
         ) : (
           <div className="grid max-w-full grid-cols-1 gap-6 mx-auto mt-8 lg:grid-cols-3 lg:max-w-full sm:grid-cols-2">
-            {programs.map((program, index) => {
+            {programs.map((program: Program, index: number) => {
               const { title, imageUrl, startDate, endDate } = program;
               const note = `${moment(startDate).format("MMM DD")} - ${moment(
                 endDate

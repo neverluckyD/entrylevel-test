@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { getPrograms } from "../services/programs";
+import { AppState } from './index'
 
 const initialState = {
   shortTitle: [null],
@@ -14,7 +15,7 @@ const initialState = {
 
 export const getProgramsAsync = createAsyncThunk(
   "program/getPrograms",
-  async ({ shortTitle, status }, { rejectWithValue }) => {
+  async ({ shortTitle, status }: any, { rejectWithValue}: any) => {
     const programs = await getPrograms(shortTitle, status);
     if (!programs || !programs.length) {
       return rejectWithValue("Not found");

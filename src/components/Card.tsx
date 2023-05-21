@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
 const defaultImage = "../assets/default.png";
-export default function Card(props) {
+import { CardProps } from "../interfaces/props";
+export default function Card(props: CardProps) {
   const { imageUrl, title, note } = props;
   return (
     <div className="max-w-sm rounded-md overflow-hidden shadow-lg text-left">
@@ -12,9 +13,7 @@ export default function Card(props) {
       />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{title}</div>
-        <p className="text-gray-700 text-base">
-        {note}
-        </p>
+        <p className="text-gray-700 text-base">{note}</p>
       </div>
     </div>
   );
