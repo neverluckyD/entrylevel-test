@@ -11,6 +11,7 @@ const getPrograms: NextApiHandler = async (request, response) => {
     );
     const sessions = await sessionResponse.json();
 
+    // Sort session based on startDate
     const sortedSessions = sessions.sort(
       (program1: any, program2: any) =>
         new Date(program2).getTime() - new Date(program1).getTime()
@@ -18,12 +19,17 @@ const getPrograms: NextApiHandler = async (request, response) => {
 
     const programs: Program[] = [];
     let programCount = 0;
+
 		const shortTitleFilter = request.query.short_title ? (request.query.short_title as string).split(',') : [];
 		const statusFilter = request.query.status ? (request.query.status as string).split(',') : [];
+
+    // Create loops through sessions and programs, and will stop after there is 50 programs found
     for (let session of sortedSessions) {
       if (programCount >= 50) {
         break;
       }
+
+      // Filter status of sessions
 			if (statusFilter.length && !statusFilter.includes(session.status)) {
 				continue;
 			}
@@ -33,9 +39,11 @@ const getPrograms: NextApiHandler = async (request, response) => {
           break;
         }
 
+        // Filter short title of programs
 				if (shortTitleFilter.length && !shortTitleFilter.includes(program.shortTitle)) {
 					continue;
 				}
+
         const { start_date, end_date } = session;
         const { display_title, thumbnail_img_url } = program;
         programs.push({
